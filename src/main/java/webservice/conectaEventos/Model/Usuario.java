@@ -2,34 +2,35 @@ package webservice.conectaEventos.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import webservice.conectaEventos.Model.enums.TipoUsuario;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table (name = "usuario")
-@Data
-@Entity
+@Getter
+@Setter
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Long idUsuario;
+    public Long idUsuario;
 
     @Column(name = "nome_usuario", nullable = false, length = 100)
-    private String nomeUsuario;
+    public String nomeUsuario;
 
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
+    public LocalDate dataNascimento;
 
     @Column(name = "email_usuario", nullable = false, length = 100, unique = true)
-    private String emailUsuario;
+    public String emailUsuario;
 
     @Column(name = "senha_usuario", nullable = false)
-    private String senhaUsuario;
+    public String senhaUsuario;
 
     @Enumerated(EnumType.STRING)
-    private TipoUsuario tipoUsuario;
+    public TipoUsuario tipoUsuario;
 }

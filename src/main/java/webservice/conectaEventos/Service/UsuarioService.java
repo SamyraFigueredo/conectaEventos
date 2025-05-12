@@ -1,7 +1,6 @@
 package webservice.conectaEventos.Service;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webservice.conectaEventos.Model.Usuario;
 import webservice.conectaEventos.Repository.UsuarioRepository;
@@ -10,17 +9,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario salvarUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     public Usuario buscarPorId(Long id) {
-        return usuarioRepository.findByidUsuario(id)
+        return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + id));
     }
 
@@ -31,20 +29,25 @@ public class UsuarioService {
     public Usuario atualizarUsuario(Long id, Usuario usuarioAtualizado) {
         Usuario usuarioExistente = buscarPorId(id);
 
-        usuarioExistente.setNomeUsuario(usuarioAtualizado.getNomeUsuario());
-        usuarioExistente.setDataNascimento(usuarioAtualizado.getDataNascimento());
-        usuarioExistente.setEmailUsuario(usuarioAtualizado.getEmailUsuario());
-        usuarioExistente.setSenhaUsuario(usuarioAtualizado.getSenhaUsuario());
+        usuarioExistente.nomeUsuario = usuarioAtualizado.nomeUsuario;
+        usuarioExistente.dataNascimento = usuarioAtualizado.dataNascimento;
+        usuarioExistente.emailUsuario = usuarioAtualizado.emailUsuario;
+        usuarioExistente.senhaUsuario = usuarioAtualizado.senhaUsuario;
+        usuarioExistente.tipoUsuario = usuarioAtualizado.tipoUsuario;
+
 
         return usuarioRepository.save(usuarioExistente);
     }
 
     public void deletarUsuario(Long id) {
-        String idString = String.valueOf(id);
-        if (!usuarioRepository.existsById(idString)) {
-            throw new EntityNotFoundException("Usuário não encontrado com o ID: " + idString);
+        if (!usuarioRepository.existsById(id)) {
+            throw new EntityNotFoundException("Usuário não encontrado com o ID: " + id);
         }
-        usuarioRepository.deleteById(idString);
+        usuarioRepository.deleteById(id);
+    }
+
+    public Usuario salvarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     public Optional<Usuario> buscarPorEmail(String email) {
