@@ -2,6 +2,8 @@ package webservice.conectaEventos.Controller.Request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import webservice.conectaEventos.Model.Evento;
+import webservice.conectaEventos.Model.Usuario;
 import webservice.conectaEventos.Model.enums.TipoUsuario;
 
 import java.time.ZonedDateTime;
